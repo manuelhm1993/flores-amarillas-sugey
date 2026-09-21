@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas — Sugey & Manuel</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        night: '#0d0b0f',
+                        nightCard: '#1a1622',
+                        nightBorder: '#342a3f',
+                        gold: '#d4af37',
+                        goldLight: '#f3e5ab',
+                        sunflower: '#f5be18',
+                        warmYellow: '#ffd166',
+                        warmCream: '#fdfbf7',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0d0b0f;
+            color: #fdfbf7;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Ambient Glow Effect */
+        .gold-glow {
+            box-shadow: 0 0 35px rgba(245, 190, 24, 0.25);
+        }
+
+        .gold-glow-lg {
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.35);
+        }
+
+        .gold-text-shimmer {
+            background: linear-gradient(135deg, #fff3b0 0%, #f5be18 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* SVG Flower Bloom Animations */
+        .stem-path {
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            animation: growStem 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .leaf-path {
+            transform-origin: center;
+            transform: scale(0);
+            animation: unfoldLeaf 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards;
+        }
+
+        .petal-group {
+            transform-origin: 150px 110px;
+            transform: scale(0) rotate(-15deg);
+            animation: bloomPetals 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
+        }
+
+        .pollen-center {
+            transform-origin: 150px 110px;
+            transform: scale(0);
+            animation: popPollen 1.5s ease-out 3.2s forwards, pollenPulse 4s infinite ease-in-out 4.7s;
+        }
+
+        @keyframes growStem {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes unfoldLeaf {
+            to { transform: scale(1); }
+        }
+
+        @keyframes bloomPetals {
+            to { transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes popPollen {
+            to { transform: scale(1); }
+        }
+
+        @keyframes pollenPulse {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(245, 190, 24, 0.6)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 209, 102, 0.9)); }
+        }
+
+        /* Canvas background overlay */
+        #petalsCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Vintage Gold Frame Styling */
+        .vintage-frame {
+            position: relative;
+            padding: 12px;
+            background: linear-gradient(135deg, #d4af37 0%, #7d6118 50%, #f3e5ab 100%);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 25px rgba(212,175,55,0.3);
+        }
+
+        .vintage-frame-inner {
+            background-color: #120e17;
+            border: 2px solid #f3e5ab;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .vintage-corner {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #f5be18;
+            z-index: 10;
+        }
+
+        .corner-tl { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 6px; right: 6px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 6px; left: 6px; border-right: none; border-top: none; }
+        .corner-br { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+        /* Parchment Letter styling */
+        .parchment {
+            background: #fdfbf7;
+            color: #2b2319;
+            background-image: radial-gradient(#f3eacb 1px, transparent 0);
+            background-size: 24px 24px;
+            box-shadow: inset 0 0 40px rgba(180, 140, 60, 0.2);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-sunflower selection:text-night">
+
+    <canvas id="petalsCanvas"></canvas>
+
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 py-8 md:py-12 flex-grow flex flex-col justify-between">
+        
+        <!-- HEADER: OPERA ARIA BANNER -->
+        <header class="text-center mb-8 md:mb-12">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-nightCard border border-gold/30 text-sunflower text-xs md:text-sm font-medium mb-4 tracking-widest uppercase">
+                <i class="fa-solid fa-sun text-sunflower animate-spin-slow"></i>
+                21 de Septiembre · Flores Amarillas para Sugey
+            </div>
+            
+            <!-- Opera Quote Header -->
+            <div class="max-w-3xl mx-auto px-4 py-3 border-y border-gold/20 my-2">
+                <p class="font-serif italic text-lg md:text-2xl text-goldLight leading-relaxed">
+                    «Dilegua, o notte! Tramontate, stelle! Al sorgere del tuo sorriso, il tuo amore fa fiorire la mia vita.»
+                </p>
+                <p class="text-xs md:text-sm text-gray-400 mt-1 uppercase tracking-wider font-light">
+                    — Inspirado en las grandes arias líricas de Puccini · Dedicado a Sugey
+                </p>
+            </div>
+        </header>
+
+        <!-- HERO SECTION: PHOTO + BLOOMING SVG FLOWER -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
+            
+            <!-- LEFT COLUMN: VINTAGE PORTRAIT FRAME -->
+            <div class="lg:col-span-5 flex flex-col items-center">
+                <div class="vintage-frame w-full max-w-sm">
+                    <div class="vintage-corner corner-tl"></div>
+                    <div class="vintage-corner corner-tr"></div>
+                    <div class="vintage-corner corner-bl"></div>
+                    <div class="vintage-corner corner-br"></div>
+                    
+                    <div class="vintage-frame-inner group">
+                        <img 
+                            src="image_4bbc7c.jpg" 
+                            alt="Manuel & Sugey" 
+                            class="w-full h-auto object-cover rounded-lg transition-transform duration-700 group-hover:scale-105"
+                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80';"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-night/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                        <div class="absolute bottom-3 left-0 right-0 text-center">
+                            <span class="font-serif italic text-goldLight text-xl tracking-wide">Manuel & Sugey</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 mt-3 italic flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart text-sunflower text-xs"></i>
+                    Unidos por un amor que florece día a día
+                </p>
+            </div>
+
+            <!-- RIGHT COLUMN: BLOOMING SVG FLOWER & MAIN MESSAGE -->
+            <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
+                
+                <!-- SVG Yellow Flower Animation Container -->
+                <div class="relative w-72 h-72 md:w-80 md:h-80 bg-nightCard/60 rounded-2xl border border-gold/20 p-4 flex items-center justify-center gold-glow">
+                    <svg id="flowerSVG" viewBox="0 0 300 320" class="w-full h-full overflow-visible">
+                        <!-- Background Glow Circle -->
+                        <circle cx="150" cy="110" r="70" fill="#f5be18" opacity="0.12" />
+
+                        <!-- Curved Stem -->
+                        <path class="stem-path" d="M 150 280 Q 140 200 150 110" stroke="#2b5e32" stroke-width="6" stroke-linecap="round" fill="none" />
+                        
+                        <!-- Leaf Left -->
+                        <path class="leaf-path" d="M 147 210 Q 100 195 115 225 Q 140 220 147 210 Z" fill="#3a7d44" stroke="#224927" stroke-width="1.5" />
+                        
+                        <!-- Leaf Right -->
+                        <path class="leaf-path" d="M 151 170 Q 200 155 185 185 Q 160 180 151 170 Z" fill="#3a7d44" stroke="#224927" stroke-width="1.5" />
+
+                        <!-- PETALS GROUP (Multiple Golden Yellow Petals Radiating) -->
+                        <g class="petal-group">
+                            <!-- Layer 1: Outer Petals -->
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#f5be18" stroke="#d4900a" stroke-width="1" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#f5be18" stroke="#d4900a" stroke-width="1" transform="rotate(30 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#ffd166" stroke="#d4900a" stroke-width="1" transform="rotate(60 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#f5be18" stroke="#d4900a" stroke-width="1" transform="rotate(90 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#ffd166" stroke="#d4900a" stroke-width="1" transform="rotate(120 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#f5be18" stroke="#d4900a" stroke-width="1" transform="rotate(150 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#f5be18" stroke="#d4900a" stroke-width="1" transform="rotate(180 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#ffd166" stroke="#d4900a" stroke-width="1" transform="rotate(210 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#f5be18" stroke="#d4900a" stroke-width="1" transform="rotate(240 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#ffd166" stroke="#d4900a" stroke-width="1" transform="rotate(270 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#f5be18" stroke="#d4900a" stroke-width="1" transform="rotate(300 150 110)" />
+                            <path d="M 150 110 C 130 50 135 10 150 10 C 165 10 170 50 150 110 Z" fill="#ffd166" stroke="#d4900a" stroke-width="1" transform="rotate(330 150 110)" />
+
+                            <!-- Layer 2: Inner Petals (Slightly Offset & Shorter) -->
+                            <g transform="scale(0.75)" transform-origin="150 110">
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" />
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" transform="rotate(45 150 110)" />
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" transform="rotate(90 150 110)" />
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" transform="rotate(135 150 110)" />
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" transform="rotate(180 150 110)" />
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" transform="rotate(225 150 110)" />
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" transform="rotate(270 150 110)" />
+                                <path d="M 150 110 C 135 60 140 25 150 25 C 160 25 165 60 150 110 Z" fill="#fff3b0" opacity="0.9" transform="rotate(315 150 110)" />
+                            </g>
+                        </g>
+
+                        <!-- Center Pollen Core -->
+                        <g class="pollen-center">
+                            <circle cx="150" cy="110" r="22" fill="#8c580c" />
+                            <circle cx="150" cy="110" r="18" fill="#d4900a" />
+                            <circle cx="150" cy="110" r="12" fill="#f5be18" />
+                            <circle cx="146" cy="106" r="4" fill="#ffffff" opacity="0.7" />
+                        </g>
+                    </svg>
+
+                    <!-- Re-bloom Trigger Floating Button -->
+                    <button id="rebloomBtn" onclick="triggerBloom()" title="Hacer florecer de nuevo" class="absolute bottom-2 right-2 bg-nightBorder/80 hover:bg-gold text-gold hover:text-night w-9 h-9 rounded-full flex items-center justify-center text-sm transition-all duration-300 border border-gold/40">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                </div>
+
+                <!-- MAIN FEATURED PHRASE -->
+                <div>
+                    <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-2">
+                        «Su amor hace <span class="gold-text-shimmer">florecer mi vida</span>»
+                    </h1>
+                    <p class="text-gray-300 text-base md:text-lg font-light leading-relaxed max-w-xl">
+                        Para Sugey, de parte de Manuel. En cada pétalo amarillo habita la promesa de un amor radiante, eterno y capaz de renovarse con cada primavera.
+                    </p>
+                </div>
+
+                <!-- INTERACTIVE ACTION BUTTONS -->
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <!-- Button 1: Read Letter Modal -->
+                    <button onclick="openModal()" class="px-6 py-3 rounded-full bg-gradient-to-r from-sunflower to-gold text-night font-semibold flex items-center gap-2.5 shadow-lg shadow-sunflower/20 hover:scale-105 active:scale-95 transition-all">
+                        <i class="fa-solid fa-envelope-open-text text-lg"></i>
+                        <span>Leer Carta Íntima</span>
+                    </button>
+
+                    <!-- Button 2: Music / Harmony Toggle -->
+                    <button id="musicBtn" onclick="toggleAudio()" class="px-6 py-3 rounded-full bg-nightCard border border-gold/40 text-goldLight hover:bg-nightBorder font-medium flex items-center gap-2.5 hover:scale-105 active:scale-95 transition-all">
+                        <i class="fa-solid fa-music text-sunflower" id="musicIcon"></i>
+                        <span id="musicText">Melodía Operística</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-12 text-center text-xs text-gray-400 border-t border-nightBorder/60 pt-6">
+            <p class="font-serif italic text-sm text-goldLight mb-1">
+                «Il tuo amore fa fiorire la mia vita»
+            </p>
+            <p>Manuel & Sugey · MHenriquez C.A. · Maracaibo, Venezuela</p>
+        </footer>
+
+    </div>
+
+    <!-- MODAL: MODO CARTA ÍNTIMA -->
+    <div id="letterModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
+        <div class="relative w-full max-w-2xl max-h-[90vh] flex flex-col parchment rounded-lg border-2 border-gold shadow-2xl overflow-hidden animate-fade-in">
+            
+            <!-- Sticky Close Header Button -->
+            <div class="sticky top-0 right-0 z-20 flex justify-between items-center px-6 py-4 bg-amber-100/90 backdrop-blur-sm border-b border-amber-300/60">
+                <div class="flex items-center gap-2 text-amber-900 font-serif font-bold text-lg">
+                    <i class="fa-solid fa-scroll text-sunflower"></i>
+                    <span>Carta de Manuel para Sugey</span>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-amber-900 text-amber-100 hover:bg-amber-800 flex items-center justify-center font-bold text-sm transition-colors">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Letter Body -->
+            <div class="p-6 md:p-10 overflow-y-auto space-y-5 font-serif text-lg md:text-xl leading-relaxed text-amber-950">
+                
+                <p class="font-semibold text-2xl text-amber-900">
+                    Mi amada Sugey,
+                </p>
+
+                <p>
+                    Dicen los grandes maestros de la ópera que la música es el único lenguaje capaz de nombrar lo inefable. Como en un eco de Puccini en <i>Nessun Dorma</i> o en la ternura incomparable de <i>O mio babbino caro</i>, hay sentimientos que no caben en palabras comunes; necesitan luz, poesía y primavera.
+                </p>
+
+                <p>
+                    Hoy, entre estás flores amarillas que simbolizan la alegría pura y la renovación constante, quiero recordarte la verdad más grande que habita en mi corazón:
+                </p>
+
+                <!-- Highlighted Quote inside letter -->
+                <div class="my-6 p-4 text-center border-y-2 border-amber-400 bg-amber-50/60 rounded">
+                    <p class="italic text-2xl md:text-3xl font-bold text-amber-900">
+                        «Su amor hace florecer mi vida»
+                    </p>
+                </div>
+
+                <p>
+                    Gracias por ser mi refugio, mi melodía y el jardín donde siempre deseo volver. Que cada pétalo amarillo sea un recordatorio de que mi devoción por ti no conoce el paso del tiempo.
+                </p>
+
+                <div class="pt-6 text-right font-bold text-xl text-amber-900">
+                    <p class="italic font-normal text-sm text-amber-800">Con todo mi amor eterno,</p>
+                    <p class="text-2xl font-serif mt-1">Manuel</p>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-3 bg-amber-100/60 border-t border-amber-200 text-center text-xs text-amber-800">
+                21 de Septiembre · Flores Amarillas
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* --- 1. CANVAS FLOATING YELLOW PETALS --- */
+        const canvas = document.getElementById('petalsCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let petals = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Petal {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = -20;
+                this.size = Math.random() * 8 + 6;
+                this.speedY = Math.random() * 1.2 + 0.8;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 2;
+                this.opacity = Math.random() * 0.6 + 0.3;
+                
+                // Color palette: sunflower yellow to gold
+                const colors = ['#f5be18', '#ffd166', '#fff3b0', '#d4af37'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * 0.01) + this.speedX;
+                this.rotation += this.rotSpeed;
+
+                if (this.y > height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+
+                // Draw petal shape
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(this.size, -this.size / 2, this.size, -this.size);
+                ctx.quadraticCurveTo(0, -this.size * 1.5, -this.size, -this.size);
+                ctx.quadraticCurveTo(-this.size, -this.size / 2, 0, 0);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        function initPetals() {
+            petals = [];
+            const count = window.innerWidth < 768 ? 25 : 45;
+            for (let i = 0; i < count; i++) {
+                const petal = new Petal();
+                petal.y = Math.random() * height; // Distribute initially
+                petals.push(petal);
+            }
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, width, height);
+            petals.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animatePetals);
+        }
+
+        initPetals();
+        animatePetals();
+
+        /* --- 2. SVG FLOWER RE-BLOOM TRIGGER --- */
+        function triggerBloom() {
+            const svg = document.getElementById('flowerSVG');
+            const clone = svg.cloneNode(true);
+            svg.parentNode.replaceChild(clone, svg);
+
+            // Trigger burst of extra floating petals
+            for (let i = 0; i < 15; i++) {
+                const petal = new Petal();
+                petal.x = width / 2 + (Math.random() * 200 - 100);
+                petal.y = height / 2 + (Math.random() * 200 - 100);
+                petals.push(petal);
+            }
+        }
+
+        /* --- 3. MODAL CONTROLS --- */
+        function openModal() {
+            document.getElementById('letterModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('letterModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('letterModal').addEventListener('click', (e) => {
+            if (e.target.id === 'letterModal') closeModal();
+        });
+
+        /* --- 4. ROMANTIC PUCCINI-INSPIRED SYNTHESIZER MELODY --- */
+        let audioCtx = null;
+        let isPlaying = false;
+        let melodyTimer = null;
+
+        const melodyNotes = [
+            261.63, 329.63, 392.00, 523.25, // C4, E4, G4, C5
+            493.88, 392.00, 329.63, 293.66, // B4, G4, E4, D4
+            261.63, 349.23, 440.00, 523.25, // C4, F4, A4, C5
+            392.00, 329.63, 293.66, 261.63  // G4, E4, D4, C4
+        ];
+
+        function playRomanticNote(freq, duration = 1.8) {
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine'; // Soft celestial tone
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.3);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function toggleAudio() {
+            const btnText = document.getElementById('musicText');
+            const btnIcon = document.getElementById('musicIcon');
+
+            if (!isPlaying) {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                isPlaying = true;
+                btnText.textContent = 'Detener Melodía';
+                btnIcon.className = 'fa-solid fa-pause text-sunflower';
+
+                let step = 0;
+                melodyTimer = setInterval(() => {
+                    playRomanticNote(melodyNotes[step % melodyNotes.length]);
+                    step++;
+                }, 800);
+
+            } else {
+                isPlaying = false;
+                clearInterval(melodyTimer);
+                btnText.textContent = 'Melodía Operística';
+                btnIcon.className = 'fa-solid fa-music text-sunflower';
+            }
+        }
+    </script>
+</body>
+</html>
