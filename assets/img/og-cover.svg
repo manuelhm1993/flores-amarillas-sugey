@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Fondo Degradado Nocturno -->
+    <radialGradient id="bgGradient" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a1622"/>
+      <stop offset="100%" stop-color="#0d0b0f"/>
+    </radialGradient>
+
+    <!-- Degradado Dorado/Girasol para los Pétalos -->
+    <linearGradient id="goldPetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff3b0"/>
+      <stop offset="50%" stop-color="#f5be18"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+
+  <!-- Fondo Base y Borde -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  <rect x="25" y="25" width="1150" height="580" fill="none" stroke="#d4af37" stroke-width="2" rx="12" opacity="0.4"/>
+
+  <!-- FLOR EN PLENO ESPLENDOR (Lado Izquierdo) -->
+  <g transform="translate(280, 315)" filter="url(#shadow)">
+    <!-- Pétalos en Corona (16 pétalos) -->
+    <g fill="url(#goldPetal)" opacity="0.9">
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(22.5)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(45)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(67.5)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(90)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(112.5)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(135)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(157.5)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(180)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(202.5)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(225)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(247.5)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(270)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(292.5)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(315)"/>
+      <path d="M 0,-200 C 35,-130 35,-50 0,0 C -35,-50 -35,-130 0,-200 Z" transform="rotate(337.5)"/>
+    </g>
+
+    <!-- Núcleo de Polen -->
+    <circle cx="0" cy="0" r="80" fill="#0d0b0f"/>
+    <circle cx="0" cy="0" r="65" fill="#8c580c"/>
+    <circle cx="0" cy="0" r="45" fill="#d4af37"/>
+
+    <!-- MONOGRAMA SUPERPUESTO -->
+    <!-- M como Base -->
+    <text x="0" y="115" 
+          fill="#f5be18" 
+          stroke="#0d0b0f" 
+          stroke-width="16" 
+          paint-order="stroke fill"
+          font-family="'Cormorant Garamond', 'Georgia', serif" 
+          font-size="220" 
+          font-weight="bold" 
+          text-anchor="middle">
+      M
+    </text>
+
+    <!-- S Superpuesta -->
+    <text x="0" y="10" 
+          fill="#fdfbf7" 
+          stroke="#0d0b0f" 
+          stroke-width="14" 
+          paint-order="stroke fill"
+          font-family="'Cormorant Garamond', 'Georgia', serif" 
+          font-size="190" 
+          font-weight="bold" 
+          text-anchor="middle">
+      S
+    </text>
+  </g>
+
+  <!-- TEXTOS PRINCIPALES (Lado Derecho) -->
+  <g font-family="'Cormorant Garamond', 'Georgia', serif" text-anchor="start">
+    <!-- Banner Superior -->
+    <rect x="560" y="175" width="460" height="38" rx="19" fill="#1a1622" stroke="#d4af37" stroke-width="1" opacity="0.8"/>
+    <text x="580" y="200" font-size="16" fill="#f5be18" letter-spacing="3" font-weight="bold" font-family="'Plus Jakarta Sans', sans-serif">21 DE SEPTIEMBRE · FLORES AMARILLAS</text>
+
+    <!-- Título de Marca -->
+    <text x="560" y="285" font-size="62" fill="#fdfbf7" font-weight="bold">Sugey &amp; Manuel</text>
+
+    <!-- Frase Destacada -->
+    <text x="560" y="355" font-size="34" fill="#f5be18" font-style="italic" font-weight="600">«Su amor hace florecer mi vida»</text>
+
+    <!-- Cita Lírica / Aria -->
+    <text x="560" y="425" font-size="22" fill="#94a3b8" font-style="italic">«Dilegua, o notte! Tramontate, stelle!</text>
+    <text x="560" y="458" font-size="22" fill="#94a3b8" font-style="italic">Al sorgere del tuo sorriso, il tuo amore fa fiorire la mia vita.»</text>
+
+    <!-- Pie de Tarjeta -->
+    <text x="560" y="525" font-size="16" fill="#d4af37" font-family="'Plus Jakarta Sans', sans-serif" letter-spacing="1">DEDICADO A SUGEY · MARACAIBO, VENEZUELA</text>
+  </g>
+</svg>

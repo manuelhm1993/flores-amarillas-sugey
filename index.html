@@ -38,129 +38,22 @@
         }
     </script>
 
-    <style>
-        body {
-            background-color: #0d0b0f;
-            color: #fdfbf7;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow-x: hidden;
-        }
+    <link rel="stylesheet" href="./css/main.css">
 
-        .font-serif {
-            font-family: 'Cormorant Garamond', serif;
-        }
+    <!-- Favicon SVG con la Flor Amarilla y Monograma Superpuesto -->
+    <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg">
+    <meta name="theme-color" content="#0d0b0f">
 
-        /* Ambient Glow Effect */
-        .gold-glow {
-            box-shadow: 0 0 35px rgba(245, 190, 24, 0.25);
-        }
-
-        .gold-glow-lg {
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.35);
-        }
-
-        .gold-text-shimmer {
-            background: linear-gradient(135deg, #fff3b0 0%, #f5be18 50%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* SVG Flower Bloom Animations */
-        .stem-path {
-            stroke-dasharray: 400;
-            stroke-dashoffset: 400;
-            animation: growStem 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .leaf-path {
-            transform-origin: center;
-            transform: scale(0);
-            animation: unfoldLeaf 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards;
-        }
-
-        .petal-group {
-            transform-origin: 150px 110px;
-            transform: scale(0) rotate(-15deg);
-            animation: bloomPetals 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
-        }
-
-        .pollen-center {
-            transform-origin: 150px 110px;
-            transform: scale(0);
-            animation: popPollen 1.5s ease-out 3.2s forwards, pollenPulse 4s infinite ease-in-out 4.7s;
-        }
-
-        @keyframes growStem {
-            to { stroke-dashoffset: 0; }
-        }
-
-        @keyframes unfoldLeaf {
-            to { transform: scale(1); }
-        }
-
-        @keyframes bloomPetals {
-            to { transform: scale(1) rotate(0deg); }
-        }
-
-        @keyframes popPollen {
-            to { transform: scale(1); }
-        }
-
-        @keyframes pollenPulse {
-            0%, 100% { filter: drop-shadow(0 0 8px rgba(245, 190, 24, 0.6)); }
-            50% { filter: drop-shadow(0 0 20px rgba(255, 209, 102, 0.9)); }
-        }
-
-        /* Canvas background overlay */
-        #petalsCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Vintage Gold Frame Styling */
-        .vintage-frame {
-            position: relative;
-            padding: 12px;
-            background: linear-gradient(135deg, #d4af37 0%, #7d6118 50%, #f3e5ab 100%);
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 25px rgba(212,175,55,0.3);
-        }
-
-        .vintage-frame-inner {
-            background-color: #120e17;
-            border: 2px solid #f3e5ab;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .vintage-corner {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border: 2px solid #f5be18;
-            z-index: 10;
-        }
-
-        .corner-tl { top: 6px; left: 6px; border-right: none; border-bottom: none; }
-        .corner-tr { top: 6px; right: 6px; border-left: none; border-bottom: none; }
-        .corner-bl { bottom: 6px; left: 6px; border-right: none; border-top: none; }
-        .corner-br { bottom: 6px; right: 6px; border-left: none; border-top: none; }
-
-        /* Parchment Letter styling */
-        .parchment {
-            background: #fdfbf7;
-            color: #2b2319;
-            background-image: radial-gradient(#f3eacb 1px, transparent 0);
-            background-size: 24px 24px;
-            box-shadow: inset 0 0 40px rgba(180, 140, 60, 0.2);
-        }
-    </style>
+    <!-- Open Graph / Meta Tags para Redes Sociales (WhatsApp, Telegram, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Flores Amarillas — Sugey & Manuel">
+    <meta property="og:description" content="«Dilegua, o notte! Tramontate, stelle! Al sorgere del tuo sorriso, il tuo amore fa fiorire la mia vita.» Dedicado a Sugey.">
+    <meta property="og:image" content="https://mhenriquez.com/flores-amarillas-sugey/assets/img/og-cover.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://mhenriquez.com/flores-amarillas-sugey/">
+    <meta property="og:locale" content="es_VE">
+    <meta property="og:site_name" content="Flores Amarillas — Sugey & Manuel">
 </head>
 <body class="relative min-h-screen flex flex-col justify-between selection:bg-sunflower selection:text-night">
 
@@ -200,7 +93,7 @@
                     
                     <div class="vintage-frame-inner group">
                         <img 
-                            src="image_4bbc7c.jpg" 
+                            src="./assets/img/juntos.jpg" 
                             alt="Manuel & Sugey" 
                             class="w-full h-auto object-cover rounded-lg transition-transform duration-700 group-hover:scale-105"
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80';"
@@ -345,7 +238,7 @@
                 </p>
 
                 <p>
-                    Hoy, entre estás flores amarillas que simbolizan la alegría pura y la renovación constante, quiero recordarte la verdad más grande que habita en mi corazón:
+                    Hoy, entre estas flores amarillas que simbolizan la alegría pura y la renovación constante, quiero recordarte la verdad más grande que habita en mi corazón:
                 </p>
 
                 <!-- Highlighted Quote inside letter -->
@@ -360,7 +253,7 @@
                 </p>
 
                 <div class="pt-6 text-right font-bold text-xl text-amber-900">
-                    <p class="italic font-normal text-sm text-amber-800">Con todo mi amor eterno,</p>
+                    <p class="italic font-normal text-sm text-amber-800">Con todo mi amor,</p>
                     <p class="text-2xl font-serif mt-1">Manuel</p>
                 </div>
 
@@ -374,187 +267,10 @@
         </div>
     </div>
 
+    <!-- AGREGAR ESTA LÍNEA JUSTO ANTES DE <script src="./js/main.js"></script> -->
+    <audio id="bg-music" src="./assets/music/nessun-dorma-violin.mp3" loop preload="auto"></audio>
+
     <!-- JAVASCRIPT LOGIC -->
-    <script>
-        /* --- 1. CANVAS FLOATING YELLOW PETALS --- */
-        const canvas = document.getElementById('petalsCanvas');
-        const ctx = canvas.getContext('2d');
-
-        let width, height;
-        let petals = [];
-
-        function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Petal {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * width;
-                this.y = -20;
-                this.size = Math.random() * 8 + 6;
-                this.speedY = Math.random() * 1.2 + 0.8;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.rotation = Math.random() * 360;
-                this.rotSpeed = (Math.random() - 0.5) * 2;
-                this.opacity = Math.random() * 0.6 + 0.3;
-                
-                // Color palette: sunflower yellow to gold
-                const colors = ['#f5be18', '#ffd166', '#fff3b0', '#d4af37'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-
-            update() {
-                this.y += this.speedY;
-                this.x += Math.sin(this.y * 0.01) + this.speedX;
-                this.rotation += this.rotSpeed;
-
-                if (this.y > height + 20) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate((this.rotation * Math.PI) / 180);
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-
-                // Draw petal shape
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.quadraticCurveTo(this.size, -this.size / 2, this.size, -this.size);
-                ctx.quadraticCurveTo(0, -this.size * 1.5, -this.size, -this.size);
-                ctx.quadraticCurveTo(-this.size, -this.size / 2, 0, 0);
-                ctx.fill();
-
-                ctx.restore();
-            }
-        }
-
-        function initPetals() {
-            petals = [];
-            const count = window.innerWidth < 768 ? 25 : 45;
-            for (let i = 0; i < count; i++) {
-                const petal = new Petal();
-                petal.y = Math.random() * height; // Distribute initially
-                petals.push(petal);
-            }
-        }
-
-        function animatePetals() {
-            ctx.clearRect(0, 0, width, height);
-            petals.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animatePetals);
-        }
-
-        initPetals();
-        animatePetals();
-
-        /* --- 2. SVG FLOWER RE-BLOOM TRIGGER --- */
-        function triggerBloom() {
-            const svg = document.getElementById('flowerSVG');
-            const clone = svg.cloneNode(true);
-            svg.parentNode.replaceChild(clone, svg);
-
-            // Trigger burst of extra floating petals
-            for (let i = 0; i < 15; i++) {
-                const petal = new Petal();
-                petal.x = width / 2 + (Math.random() * 200 - 100);
-                petal.y = height / 2 + (Math.random() * 200 - 100);
-                petals.push(petal);
-            }
-        }
-
-        /* --- 3. MODAL CONTROLS --- */
-        function openModal() {
-            document.getElementById('letterModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('letterModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('letterModal').addEventListener('click', (e) => {
-            if (e.target.id === 'letterModal') closeModal();
-        });
-
-        /* --- 4. ROMANTIC PUCCINI-INSPIRED SYNTHESIZER MELODY --- */
-        let audioCtx = null;
-        let isPlaying = false;
-        let melodyTimer = null;
-
-        const melodyNotes = [
-            261.63, 329.63, 392.00, 523.25, // C4, E4, G4, C5
-            493.88, 392.00, 329.63, 293.66, // B4, G4, E4, D4
-            261.63, 349.23, 440.00, 523.25, // C4, F4, A4, C5
-            392.00, 329.63, 293.66, 261.63  // G4, E4, D4, C4
-        ];
-
-        function playRomanticNote(freq, duration = 1.8) {
-            if (!audioCtx) return;
-
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-
-            osc.type = 'sine'; // Soft celestial tone
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-            gain.gain.setValueAtTime(0, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.3);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
-        }
-
-        function toggleAudio() {
-            const btnText = document.getElementById('musicText');
-            const btnIcon = document.getElementById('musicIcon');
-
-            if (!isPlaying) {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-
-                isPlaying = true;
-                btnText.textContent = 'Detener Melodía';
-                btnIcon.className = 'fa-solid fa-pause text-sunflower';
-
-                let step = 0;
-                melodyTimer = setInterval(() => {
-                    playRomanticNote(melodyNotes[step % melodyNotes.length]);
-                    step++;
-                }, 800);
-
-            } else {
-                isPlaying = false;
-                clearInterval(melodyTimer);
-                btnText.textContent = 'Melodía Operística';
-                btnIcon.className = 'fa-solid fa-music text-sunflower';
-            }
-        }
-    </script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
